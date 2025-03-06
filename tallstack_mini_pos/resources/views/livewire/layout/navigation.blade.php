@@ -36,6 +36,12 @@ new class extends Component
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories*')" wire:navigate>
                         {{ __('Categories') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products*')" wire:navigate>
+                        {{ __('Products') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('pos')" :active="request()->routeIs('pos*')" wire:navigate>
+                        {{ __('Point of Sales') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -93,6 +99,12 @@ new class extends Component
             <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories*')" wire:navigate>
                 {{ __('Categories') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products*')" wire:navigate>
+                {{ __('Products') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('pos')" :active="request()->routeIs('pos*')" wire:navigate>
+                {{ __('Point of Sales') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -103,6 +115,12 @@ new class extends Component
             </div>
             <x-responsive-nav-link :href="route('categories.index')" wire:navigate>
                 {{ __('Categories') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('products.index')" wire:navigate>
+                {{ __('Products') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('pos')" wire:navigate>
+                {{ __('Point of Sales') }}
             </x-responsive-nav-link>
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>

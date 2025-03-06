@@ -1,0 +1,12 @@
+version: 1.0.0
+files:
+  - url: Laravel-1.0.0.AppImage
+    sha512: 09gMAZdkCN2eDKifgh9wZTV2z9LuxSJt5C+WQw4y6oN48Ko30cuXAQQggo2cQ0Yf8fNLgD2jHM16f8FVwq30qA==
+    size: 126125450
+    blockMapSize: 132510
+  - url: laravel_1.0.0_amd64.deb
+    sha512: dM+/uhUlJWtL3q5yHF7vPACVZb1EmCSengdfhII5/PsopO7qq9xV8+uRXQKXjraiZNJQYGw4uPdex/cfmMg+bw==
+    size: 87348108
+path: Laravel-1.0.0.AppImage
+sha512: 09gMAZdkCN2eDKifgh9wZTV2z9LuxSJt5C+WQw4y6oN48Ko30cuXAQQggo2cQ0Yf8fNLgD2jHM16f8FVwq30qA==
+releaseDate: '2025-03-04T14:36:53.236Z'

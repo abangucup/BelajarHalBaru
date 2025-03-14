@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Generator Lamaran Kerja - Interaktif</title>
+   <!-- Bootstrap CSS CDN -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+      body {
+         background-color: #e9ecef;
+         font-family: 'Poppins', sans-serif;
+      }
+
+      .card {
+         margin-bottom: 20px;
+      }
+
+      pre {
+         white-space: pre-wrap;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="container my-4" x-data="lamaranForm()">
+      <div class="row">
+         <!-- Form Column -->
+         <div class="col-md-6">
+            <div class="card shadow-sm">
+               <div class="card-header bg-secondary text-white">
+                  <h4 class="card-title mb-0">Form Generator Lamaran</h4>
+               </div>
+               <div class="card-body">
+                  <div class="mb-3">
+                     <label for="nama" class="form-label">Nama:</label>
+                     <input type="text" id="nama" class="form-control" x-model="nama" placeholder="Masukkan Nama"
+                        required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="pendidikan" class="form-label">Pendidikan:</label>
+                     <input type="text" id="pendidikan" class="form-control" x-model="pendidikan"
+                        placeholder="Contoh: S1 Teknik Informatika – Sistem Informasi" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="posisi" class="form-label">Posisi yang Dilamar:</label>
+                     <input type="text" id="posisi" class="form-control" x-model="posisi"
+                        placeholder="Contoh: Web Developer" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="perusahaanTujuan" class="form-label">Nama Perusahaan:</label>
+                     <input type="text" id="perusahaanTujuan" class="form-control" x-model="perusahaanTujuan"
+                        placeholder="Contoh: Four Vision Media" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="alamatPerusahaan" class="form-label">Alamat Perusahaan:</label>
+                     <textarea id="alamatPerusahaan" class="form-control" x-model="alamatPerusahaan"
+                        placeholder="Masukkan alamat perusahaan" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                     <label for="subjectInput" class="form-label">Subject Email:</label>
+                     <input type="text" id="subjectInput" class="form-control" x-model="subject"
+                        placeholder="Contoh: Lamaran Pekerjaan - Web Developer">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Preview Column -->
+         <div class="col-md-6">
+            <div class="card shadow-sm">
+               <div class="card-header bg-secondary text-white">
+                  <ul class="nav nav-tabs card-header-tabs" id="previewTabs" role="tablist">
+                     <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="subject-tab" data-bs-toggle="tab"
+                           data-bs-target="#subjectPreview" type="button" role="tab" aria-controls="subjectPreview"
+                           aria-selected="true">Subject Email</button>
+                     </li>
+                     <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="body-tab" data-bs-toggle="tab" data-bs-target="#bodyPreview"
+                           type="button" role="tab" aria-controls="bodyPreview" aria-selected="false">Body
+                           Lamaran</button>
+                     </li>
+                  </ul>
+               </div>
+               <div class="card-body">
+                  <div class="tab-content" id="previewTabsContent">
+                     <div class="tab-pane fade show active" id="subjectPreview" role="tabpanel"
+                        aria-labelledby="subject-tab">
+                        <pre x-text="generateSubject()"></pre>
+                        <button class="btn btn-outline-success w-100 mt-2" @click="copySubject()">Salin Subject</button>
+                     </div>
+                     <div class="tab-pane fade" id="bodyPreview" role="tabpanel" aria-labelledby="body-tab">
+                        <pre x-text="generateLamaran()"></pre>
+                        <button class="btn btn-outline-success w-100 mt-2" @click="copyLamaran()">Salin Lamaran</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Bootstrap Toast for copy alert -->
+      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+         <div id="copyToast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true" x-ref="toast">
+            <div class="d-flex">
+               <div class="toast-body">
+                  Disalin ke clipboard!
+               </div>
+               <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                  aria-label="Close"></button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Bootstrap JS Bundle -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script>
+      function lamaranForm() {
+         return {
+            nama: 'Salman Mustapa',
+            pendidikan: 'S1 Teknik Informatika – Sistem Informasi',
+            posisi: 'Web Developer',
+            perusahaanTujuan: 'Four Vision Media',
+            alamatPerusahaan: 'Firdaus Valley, Jl. Raya Lingkar Bojong Sereh, Lebakwangi, Kec. Arjasari, Kab. Bandung, Jawa Barat 40379',
+            subject: '',
+            generateSubject() {
+               return this.subject ? this.subject : `Lamaran Pekerjaan - ${this.posisi}`;
+            },
+            generateLamaran() {
+               return `Kepada Yth.
+HRD ${this.perusahaanTujuan}
+${this.alamatPerusahaan}
+
+Dengan hormat,
+
+Saya yang bertanda tangan di bawah ini:
+Nama: ${this.nama}
+Pendidikan: ${this.pendidikan}
+Posisi yang dilamar: ${this.posisi}
+
+Dengan ini, saya mengajukan lamaran pekerjaan sebagai ${this.posisi} di ${this.perusahaanTujuan}. Saya memiliki keahlian dalam pengembangan web menggunakan Laravel, pengelolaan database MySQL, serta administrasi Linux Server. Saya tertarik untuk bergabung dengan perusahaan Bapak/Ibu karena saya yakin pengalaman dan keterampilan saya dapat berkontribusi dalam pengembangan layanan pembuatan website yang berkualitas.
+
+Saya memiliki pengalaman dalam:
+- Mengembangkan aplikasi berbasis web menggunakan Laravel dengan arsitektur yang efisien dan aman.
+- Mengelola dan mengoptimalkan database MySQL untuk memastikan performa yang stabil dan cepat.
+- Administrasi dan konfigurasi Linux Server, termasuk manajemen hosting dan deployment aplikasi.
+- Implementasi RESTful API untuk kebutuhan integrasi sistem.
+- Pemecahan masalah teknis serta debugging aplikasi untuk meningkatkan efisiensi dan keamanan sistem.
+
+Saya memiliki semangat belajar yang tinggi dan siap untuk berkembang bersama tim di ${this.perusahaanTujuan}. Sebagai individu yang detail-oriented dan problem-solver, saya percaya bahwa saya dapat memberikan kontribusi positif bagi tim pengembangan perusahaan.
+
+Sebagai bahan pertimbangan, saya lampirkan CV dan portofolio saya yang berisi beberapa proyek yang telah saya kembangkan. Saya sangat berharap dapat diberikan kesempatan untuk wawancara agar dapat menjelaskan lebih lanjut tentang kemampuan saya.
+
+Terima kasih atas waktu dan perhatian Bapak/Ibu. Saya menantikan kesempatan untuk berdiskusi lebih lanjut mengenai peran ini.
+
+Hormat saya,
+${this.nama}`;
+            },
+            copyLamaran() {
+               const text = this.generateLamaran();
+               navigator.clipboard.writeText(text).then(() => {
+                  this.showToast();
+               });
+            },
+            copySubject() {
+               const subject = this.generateSubject();
+               navigator.clipboard.writeText(subject).then(() => {
+                  this.showToast();
+               });
+            },
+            showToast() {
+               let toastEl = document.getElementById('copyToast');
+               let toast = new bootstrap.Toast(toastEl);
+               toast.show();
+            }
+         }
+      }
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Generator Lamaran Kerja - Bootstrap</title>
+   <!-- Bootstrap CSS CDN -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+      body {
+         background-color: #f0f2f5;
+         font-family: 'Poppins', sans-serif;
+      }
+
+      .card {
+         margin-bottom: 20px;
+      }
+
+      .copy-alert {
+         position: fixed;
+         bottom: 20px;
+         right: 20px;
+         background-color: #28a745;
+         color: white;
+         padding: 10px 15px;
+         border-radius: 5px;
+         display: none;
+         z-index: 1000;
+      }
+
+      pre {
+         white-space: pre-wrap;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="container my-4" x-data="lamaranForm()">
+      <div class="row">
+         <!-- Form Column -->
+         <div class="col-md-6">
+            <div class="card shadow-sm">
+               <div class="card-header bg-primary text-white">
+                  <h4 class="card-title mb-0">Form Generator Lamaran</h4>
+               </div>
+               <div class="card-body">
+                  <div class="mb-3">
+                     <label for="nama" class="form-label">Nama:</label>
+                     <input type="text" id="nama" class="form-control" x-model="nama" placeholder="Masukkan Nama"
+                        required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="pendidikan" class="form-label">Pendidikan:</label>
+                     <input type="text" id="pendidikan" class="form-control" x-model="pendidikan"
+                        placeholder="Contoh: S1 Teknik Informatika – Sistem Informasi" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="posisi" class="form-label">Posisi yang Dilamar:</label>
+                     <input type="text" id="posisi" class="form-control" x-model="posisi"
+                        placeholder="Contoh: Web Developer" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="perusahaanTujuan" class="form-label">Nama Perusahaan:</label>
+                     <input type="text" id="perusahaanTujuan" class="form-control" x-model="perusahaanTujuan"
+                        placeholder="Contoh: Four Vision Media" required>
+                  </div>
+                  <div class="mb-3">
+                     <label for="alamatPerusahaan" class="form-label">Alamat Perusahaan:</label>
+                     <textarea id="alamatPerusahaan" class="form-control" x-model="alamatPerusahaan"
+                        placeholder="Masukkan alamat perusahaan" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                     <label for="subject" class="form-label">Subject Email:</label>
+                     <input type="text" id="subject" class="form-control" x-model="subject"
+                        placeholder="Contoh: Lamaran Pekerjaan - Web Developer">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Preview Column -->
+         <div class="col-md-6">
+            <!-- Subject Card -->
+            <div class="card shadow-sm">
+               <div class="card-header bg-info text-white">
+                  <h4 class="card-title mb-0">Preview Subject Email</h4>
+               </div>
+               <div class="card-body">
+                  <pre class="mb-0" x-text="generateSubject()"></pre>
+                  <button class="btn btn-outline-info w-100 mt-2" @click="copySubject()">Salin Subject</button>
+               </div>
+            </div>
+            <!-- Body Preview Card -->
+            <div class="card shadow-sm">
+               <div class="card-header bg-light-secondary">
+                  <div class="card-title d-flex justify-content-between mt-2">
+                     <h4>Preview Lamaran (Body)</h4>
+                     <button class="btn btn-outline-success" @click="copyLamaran()">Salin Lamaran</button>
+                  </div>
+               </div>
+               <div class="card-body">
+                  <pre class="mb-0" x-text="generateLamaran()"></pre>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Alert Copy Notification -->
+   <div id="copyAlert" class="copy-alert">Disalin ke clipboard!</div>
+
+   <!-- Bootstrap JS Bundle -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+   <script>
+      function lamaranForm() {
+         return {
+            nama: 'Salman Mustapa',
+            pendidikan: 'S1 Teknik Informatika – Sistem Informasi',
+            posisi: 'Web Developer',
+            perusahaanTujuan: 'Four Vision Media',
+            alamatPerusahaan: 'Firdaus Valley, Jl. Raya Lingkar Bojong Sereh, Lebakwangi, Kec. Arjasari, Kab. Bandung, Jawa Barat 40379',
+            subject: '',
+            generateSubject() {
+               // Jika field subject kosong, gunakan subject default
+               return this.subject ? this.subject : `Lamaran Pekerjaan - ${this.posisi}`;
+            },
+            generateLamaran() {
+               return `Kepada Yth.
+HRD ${this.perusahaanTujuan}
+${this.alamatPerusahaan}
+
+Dengan hormat,
+
+Saya yang bertanda tangan di bawah ini:
+Nama: ${this.nama}
+Pendidikan: ${this.pendidikan}
+Posisi yang dilamar: ${this.posisi}
+
+Dengan ini, saya mengajukan lamaran pekerjaan sebagai ${this.posisi} di ${this.perusahaanTujuan}. Saya memiliki keahlian dalam pengembangan web menggunakan Laravel, pengelolaan database MySQL, serta administrasi Linux Server. Saya tertarik untuk bergabung dengan perusahaan Bapak/Ibu karena saya yakin pengalaman dan keterampilan saya dapat berkontribusi dalam pengembangan layanan pembuatan website yang berkualitas.
+
+Saya memiliki pengalaman dalam:
+- Mengembangkan aplikasi berbasis web menggunakan Laravel dengan arsitektur yang efisien dan aman.
+- Mengelola dan mengoptimalkan database MySQL untuk memastikan performa yang stabil dan cepat.
+- Administrasi dan konfigurasi Linux Server, termasuk manajemen hosting dan deployment aplikasi.
+- Implementasi RESTful API untuk kebutuhan integrasi sistem.
+- Pemecahan masalah teknis serta debugging aplikasi untuk meningkatkan efisiensi dan keamanan sistem.
+
+Saya memiliki semangat belajar yang tinggi dan siap untuk berkembang bersama tim di ${this.perusahaanTujuan}. Sebagai individu yang detail-oriented dan problem-solver, saya percaya bahwa saya dapat memberikan kontribusi positif bagi tim pengembangan perusahaan.
+
+Sebagai bahan pertimbangan, saya lampirkan CV dan portofolio saya yang berisi beberapa proyek yang telah saya kembangkan. Saya sangat berharap dapat diberikan kesempatan untuk wawancara agar dapat menjelaskan lebih lanjut tentang kemampuan saya.
+
+Terima kasih atas waktu dan perhatian Bapak/Ibu. Saya menantikan kesempatan untuk berdiskusi lebih lanjut mengenai peran ini.
+
+Hormat saya,
+${this.nama}`;
+            },
+            copyLamaran() {
+               const text = this.generateLamaran();
+               navigator.clipboard.writeText(text).then(() => {
+                  this.showAlert();
+               });
+            },
+            copySubject() {
+               const subject = this.generateSubject();
+               navigator.clipboard.writeText(subject).then(() => {
+                  this.showAlert();
+               });
+            },
+            showAlert() {
+               const alertBox = document.getElementById('copyAlert');
+               alertBox.style.display = 'block';
+               setTimeout(() => { alertBox.style.display = 'none'; }, 2000);
+            }
+         }
+      }
+   </script>
+</body>
+
+</html>
